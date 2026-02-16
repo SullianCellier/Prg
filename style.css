@@ -1,0 +1,349 @@
+/* ============================================================
+   STYLE.CSS - VERSION FINALE (8 NIVEAUX + CRASH STROBOSCOPIQUE)
+   ============================================================ */
+
+/* --- 1. RESET & BASES --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { 
+    font-family: 'Segoe UI', 'Courier New', monospace;
+    line-height: 1.6; 
+    background-color: #1A1B26; 
+    color: #C0CAF5;
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; 
+    overflow-x: hidden; 
+}
+
+/* --- 2. HEADER & NAVIGATION --- */
+header { 
+    background: #11121a; 
+    color: #ffffff; 
+    padding: 2rem; 
+    text-align: center; 
+    border-bottom: 1px solid #1f2335; 
+}
+
+header h1 {
+    font-size: 2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #3498db; 
+}
+
+nav ul { 
+    list-style: none; 
+    display: flex; 
+    justify-content: center; 
+    gap: 30px; 
+    margin-top: 15px; 
+}
+
+nav a { 
+    color: #a9b1d6; 
+    text-decoration: none; 
+    font-weight: bold; 
+    transition: color 0.3s; 
+}
+
+nav a:hover { 
+    color: #3498db; 
+    text-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
+/* --- 3. LAYOUT GRID --- */
+.container { 
+    max-width: 1100px; 
+    margin: 40px auto; 
+    padding: 0 20px;
+    width: 100%; 
+}
+
+.layout-with-sidebar {
+    display: grid; 
+    grid-template-columns: 3fr 1fr; 
+    gap: 40px; 
+    align-items: start; 
+}
+
+.articles-grid { display: flex; flex-direction: column; gap: 30px; }
+
+/* --- 4. STYLE DES ARTICLES (.POST) --- */
+
+/* A. L'ARTICLE ACTIF (Base) */
+.post { 
+    background: #11121a; 
+    border-radius: 8px; 
+    padding: 25px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border: 1px solid #3498db; 
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Zoom (désactivé sur les niveaux buggés 7 et 8) */
+.post:not(.post-static):not(.corrupt-7):not(.corrupt-8):hover {
+    transform: scale(1.02);
+    border-color: #7AA2F7;
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+}
+
+/* B. L'INTRODUCTION (WELCOME) */
+.post-static { 
+    border: 1px solid #1f2335; 
+    box-shadow: none !important; 
+    cursor: default;
+}
+
+.post-static .category { color: #565f89; }
+.post-static h2 { color: #a9b1d6; }
+
+.post-static:hover {
+    border-color: #2e303e;
+    transform: none !important;
+}
+
+.post h2 { color: #ffffff; margin-bottom: 10px; font-size: 1.5rem; }
+.date-header { font-size: 0.85rem; color: #565f89; margin-bottom: 15px; display: block; }
+.category { color: #7AA2F7; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
+
+/* --- 5. BOUTONS --- */
+.btn { 
+    display: inline-block; 
+    background-color: #3498db; 
+    color: #11121a; 
+    padding: 8px 16px; 
+    border-radius: 4px; 
+    text-decoration: none; 
+    border: 1px solid #3498db;
+    font-family: monospace;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.btn:hover { 
+    filter: brightness(1.2);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+.btn.btn-active {
+    background-color: #2e303e !important;
+    border-color: #565f89 !important;
+    color: #c0caf5 !important;
+}
+
+/* --- 6. READ MORE TEXT --- */
+.more-text {
+    display: none;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #2e303e;
+    animation: fadeIn 0.4s ease forwards;
+}
+.more-text.show { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- 7. SIDEBAR --- */
+.sidebar { 
+    background: #11121a; 
+    padding: 25px; 
+    border-radius: 8px; 
+    border: 1px solid #1f2335; 
+    box-shadow: none !important; 
+    position: sticky; 
+    top: 20px;
+    height: fit-content; 
+    z-index: 5;
+}
+
+.sidebar h3 { color: #7AA2F7; border-bottom: 1px dashed #2e303e; padding-bottom: 10px; margin-bottom: 15px; text-transform: uppercase; }
+.sidebar p { font-size: 0.9rem; color: #a9b1d6; }
+
+/* --- 8. FOOTER --- */
+footer { text-align: center; padding: 25px; background: #11121a; color: #565f89; margin-top: auto; border-top: 1px solid #1f2335; }
+
+
+/* ============================================================
+   SECTION : MOTEUR DE CORRUPTION (ANIMATIONS)
+   ============================================================ */
+
+/* 1. Drift (Calme) */
+@keyframes drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(2px, 1px); } }
+
+/* 2. Shake Low (Malaise) */
+@keyframes shake-low { 
+    0% { transform: translate(1px, 1px); } 
+    50% { transform: translate(-1px, -1px); } 
+    100% { transform: translate(0, 0); } 
+}
+
+/* 3. Violent Shake (Danger) */
+@keyframes violent { 
+    0% { transform: translate(0) skew(0deg); } 
+    25% { transform: translate(-3px, 3px) skew(2deg); } 
+    50% { transform: translate(3px, -3px) skew(-2deg); opacity: 0.8; } 
+    100% { transform: translate(0) skew(0deg); } 
+}
+
+/* 4. MAX TREMBLE (POUR LE NIVEAU 8 - LE PLUS FORT) */
+@keyframes max-tremble {
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(-4px, 4px); }
+    20% { transform: translate(4px, -4px); }
+    30% { transform: translate(-4px, -4px); }
+    40% { transform: translate(4px, 4px); }
+    50% { transform: translate(-4px, 0); }
+    60% { transform: translate(4px, 0); }
+    70% { transform: translate(0, 4px); }
+    80% { transform: translate(0, -4px); }
+    90% { transform: translate(-4px, 4px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* 5. Flash d'inversion (Lumière) pour le niveau 8 */
+@keyframes idle-flash-invert {
+    0%, 85% { filter: invert(0); }
+    86%, 88% { filter: invert(1); } /* Flash blanc violent */
+    89%, 94% { filter: invert(0); }
+    95%, 96% { filter: invert(1); } /* Flash blanc violent */
+    100% { filter: invert(0); }
+}
+
+/* 6. Clignotement du bouton Panic */
+@keyframes btn-panic {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; }
+    52% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* 7. Vibration Survol (Interaction Souris) */
+@keyframes violent-hover-shake {
+     0% { transform: translate(0, 0) scale(1); border-color: red; }
+     20% { transform: translate(-5px, 5px) scale(1.02); }
+     40% { transform: translate(5px, -5px) scale(1.02); border-color: white; }
+     60% { transform: translate(-5px, 0px) scale(1.02); box-shadow: 0 0 50px red; }
+     80% { transform: translate(5px, 2px) scale(1.02); }
+     100% { transform: translate(0, 0) scale(1); border-color: red; }
+}
+
+/* 8. ANIMATION DE DESTRUCTION DU SITE (RAPID LOOP) */
+@keyframes rapid-meltdown-loop {
+    0%   { transform: translate(0,0) skew(0deg); filter: invert(0); }
+    10%  { transform: translate(-15px, 5px) skew(20deg); filter: invert(1) contrast(2); }
+    25%  { transform: translate(10px, -10px) rotate(-5deg); filter: blur(4px) hue-rotate(90deg); }
+    40%  { transform: translate(-5px, 15px) skew(-15deg); filter: invert(1) sepia(1); }
+    60%  { transform: translate(15px, 0px) rotate(5deg) scale(1.1); filter: contrast(4) saturate(5); background-color: red; }
+    80%  { transform: translate(-10px, -5px) skew(10deg); filter: invert(1) blur(2px); }
+    100% { transform: translate(0,0) skew(0deg); filter: invert(0); }
+}
+
+
+/* ============================================================
+   APPLICATION DES CLASSES DE CORRUPTION (NIVEAUX 1 À 8)
+   ============================================================ */
+
+/* NIVEAUX 1-2 : BLEU / CALME */
+.corrupt-1 { animation: drift 4s infinite ease-in-out; border-color: #3498db; }
+.corrupt-2 { animation: drift 3s infinite ease-in-out; border-color: #2980b9; }
+
+/* NIVEAUX 3-4 : VIOLET / MALAISE */
+.corrupt-3 { 
+    border-color: #6c5ce7; 
+    animation: shake-low 3s infinite;
+}
+.corrupt-3 .category { color: #a29bfe; }
+
+.corrupt-4 { 
+    border-color: #4834d4; 
+    animation: shake-low 2s infinite;
+}
+.corrupt-4 .category { color: #a29bfe; }
+
+/* NIVEAUX 5-6 : ROUGE / ALERTE */
+.corrupt-5 { 
+    border-color: #c0392b; 
+    animation: shake-low 0.5s infinite; 
+}
+.corrupt-5 h2, .corrupt-5 .category { color: #e74c3c; }
+
+.corrupt-6 { 
+    border-color: #ff0000; 
+    animation: violent 0.4s infinite; /* Tremblement fort */
+}
+.corrupt-6 .category, .corrupt-6 h2 { color: #ff0000; }
+
+/* NIVEAU 7 : CRITIQUE (AVANT LE CRASH) */
+.corrupt-7 { 
+    border: 2px dashed #ff0000;
+    background-color: #1a0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    /* Tremblement très rapide */
+    animation: violent 0.2s infinite; 
+}
+.corrupt-7 h2 { text-transform: uppercase; letter-spacing: 3px; color: #ff0000; }
+.corrupt-7 .btn { background: #500; border-color: red; color: white; }
+
+
+/* --- NIVEAU 8 : LE FINAL (FOND NOIR + MAX TREMBLE) --- */
+.corrupt-8 {
+    background: #000000 !important; /* FOND NOIR STRICT */
+    color: #ff0000 !important;
+    border: 3px double #ff0000 !important;
+    cursor: not-allowed;
+    /* Animation combinée : 
+       - max-tremble : très rapide (0.08s)
+       - idle-flash-invert : flashs de lumière tous les 4s 
+    */
+    animation: max-tremble 0.08s infinite linear, idle-flash-invert 4s infinite steps(1);
+    overflow: hidden;
+}
+
+.corrupt-8 h2 { 
+    font-family: 'Courier New', monospace !important; 
+    text-align: center;
+}
+
+/* Le bouton clignotant dans le niveau 8 */
+.corrupt-8 .btn.flash-btn {
+    display: inline-block !important;
+    background: red !important;
+    color: black !important;
+    border: 1px solid white !important;
+    font-weight: bold;
+    margin-top: 20px;
+    animation: btn-panic 0.2s infinite;
+    box-shadow: 0 0 10px red;
+}
+
+/* INTERACTION SURVOL (Vibration Violente + Arrêt Flash) */
+#final-post-trap:hover { 
+    /* On arrête les flashs pour rester sur le fond sombre/rouge */
+    filter: invert(0) !important;
+    background-color: #1a0000 !important;
+    box-shadow: inset 0 0 30px rgba(255, 0, 0, 0.8) !important;
+    /* Animation de survol */
+    animation: violent-hover-shake 0.08s infinite linear !important;
+}
+
+/* CLASSE APPLIQUÉE VIA JS POUR LA DESTRUCTION (BUG RAPIDE) */
+.site-meltdown {
+    /* Bug stroboscopique très rapide (0.1s) en boucle infinie */
+    animation: rapid-meltdown-loop 0.1s infinite linear;
+    will-change: transform, filter;
+    overflow: hidden !important;
+    pointer-events: none;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 900px) { 
+    .layout-with-sidebar { grid-template-columns: 1fr; } 
+    .sidebar { position: static; order: -1; margin-top: 20px; } 
+}
